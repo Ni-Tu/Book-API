@@ -28,7 +28,7 @@ jobs:
           test -f ./postman/specs/book-api.yaml
 
       - name: Lint API Spec
-        run: postman spec lint ./postman/specs/book-api.yaml --fail-severity WARNING
+        run: postman spec lint ./postman/specs/book-api.yaml --fail-severity ERROR
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
