@@ -1,0 +1,64 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "year": 1965
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "book": {
+          "id": "1",
+          "title": "The Great Gatsby",
+          "author": "F. Scott Fitzgerald",
+          "year": 1925
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "book": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "1"
+              },
+              "title": {
+                "type": "string",
+                "example": "The Great Gatsby"
+              },
+              "author": {
+                "type": "string",
+                "example": "F. Scott Fitzgerald"
+              },
+              "year": {
+                "type": "integer",
+                "example": 1925
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "author"
+            ]
+          }
+        }
+      }
+order: 1000
