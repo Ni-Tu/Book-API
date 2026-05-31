@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISBN Demo Walkthrough</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #f6f8fb; color: #1f2937; }
+    .container { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1, h2, h3 { color: #111827; }
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px 24px; margin: 16px 0; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .step { border-left: 5px solid #ff6c37; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    pre { background: #111827; color: #f9fafb; padding: 14px; border-radius: 10px; overflow-x: auto; }
+    .meta { color: #6b7280; font-size: 14px; }
+    .file { font-weight: 700; color: #0f172a; }
+    .lines { color: #b45309; font-weight: 600; }
+    ul { padding-left: 20px; }
+    .note { background: #fff7ed; border: 1px solid #fdba74; }
+    .ask { background: #ecfeff; border: 1px solid #67e8f9; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ISBN Demo Walkthrough</h1>
+    <p class="meta">Repo: <strong>Ni-Tu/Book-API</strong> · Branch: <strong>update-CRUD-parameter-2</strong> · Goal: add <code>isbn</code> to the POST "Create a book" flow and supporting artifacts.</p>
+
+    <div class="card note">
+      <h2>Demo narrative</h2>
+      <p>Use this walkthrough to demo Postman native git integration by making a small but realistic API change, reviewing file diffs, then committing and pushing from the repo-connected workspace.</p>
+      <ul>
+        <li>Start from a clean branch.</li>
+        <li>Add <code>isbn</code> support to the backend model and in-memory DB.</li>
+        <li>Update route merge logic so PUT keeps/validates ISBN correctly.</li>
+        <li>Update tests.</li>
+        <li>Update the collection request, example, and OpenAPI spec.</li>
+      </ul>
+    </div>
+
+    <div class="card step">
+      <h2>Step 1 — Update the book model</h2>
+      <p><span class="file">src/models/Book.js</span> <span class="lines">(constructor, validation, serialization)</span></p>
+      <ul>
+        <li>Add <code>isbn = null</code> to the constructor signature.</li>
+        <li>Set <code>this.isbn = isbn</code>.</li>
+        <li>In <code>validate()</code>, allow ISBN to be optional, but if present it must be a non-empty string.</li>
+        <li>In <code>toJSON()</code>, include <code>isbn</code> in the returned object.</li>
+      </ul>
+      <pre>// add isbn to constructor
+constructor(id, title, author, year = null, isbn = null) { ... }
+
+// validate optional isbn
+if (data.isbn != null && (typeof data.isbn !== 'string' || !data.isbn.trim())) {
+  return { isValid: false, error: 'ISBN must be a non-empty string' };
+}
+
+// include in response shape
+isbn: this.isbn</pre>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand why the model is the first place we add ISBN?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 2 — Update seed data and persistence logic</h2>
+      <p><span class="file">src/database/db.js</span> <span class="lines">(seed data, createBook, updateBook)</span></p>
+      <ul>
+        <li>Add ISBN values to the seeded books so GET responses visibly include the new field.</li>
+        <li>In <code>createBook()</code>, persist trimmed ISBN when provided; otherwise store <code>null</code>.</li>
+        <li>In <code>updateBook()</code>, update ISBN when present in the payload.</li>
+      </ul>
+      <pre>// seed examples
+new Book('1', 'The Great Gatsby', 'F. Scott Fitzgerald', 1925, '9780743273565')
+new Book('2', '1984', 'George Orwell', 1949, '9780451524935')
+
+// create
+const book = new Book(nextId++, data.title.trim(), data.author.trim(), data.year ?? null, data.isbn?.trim() ?? null);
+
+// update
+if (data.isbn !== undefined) book.isbn = data.isbn?.trim() ?? null;</pre>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand why I’m updating both create and update paths?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 3 — Keep PUT validation consistent</h2>
+      <p><span class="file">src/routes/books.js</span> <span class="lines">(update route merge object)</span></p>
+      <ul>
+        <li>Extend the merged object used for validation during PUT.</li>
+        <li>This ensures partial updates validate against the final state, including ISBN.</li>
+      </ul>
+      <pre>const merged = {
+  title: updates.title ?? book.title,
+  author: updates.author ?? book.author,
+  year: updates.year !== undefined ? updates.year : book.year,
+  isbn: updates.isbn !== undefined ? updates.isbn : book.isbn
+};</pre>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand why the route merge needs ISBN too, even though this demo is focused on POST?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 4 — Update the integration test</h2>
+      <p><span class="file">tests/integration/books.test.js</span> <span class="lines">(POST create test)</span></p>
+      <ul>
+        <li>Add <code>isbn</code> to the POST payload.</li>
+        <li>Assert that the created book in the response includes the ISBN field.</li>
+      </ul>
+      <pre>.send({ title: 'Dune', author: 'Frank Herbert', year: 1965, isbn: '9780441013593' })
+expect(res.body.book).toMatchObject({
+  title: 'Dune', author: 'Frank Herbert', year: 1965, isbn: '9780441013593'
+});</pre>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand how this test proves the backend change worked?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 5 — Update the collection request</h2>
+      <p><span class="file">postman/collections/Books/api/v1/books/Create a book.request.yaml</span> <span class="lines">(request body example and schema)</span></p>
+      <ul>
+        <li>Add <code>isbn</code> to the JSON body example.</li>
+        <li>Add <code>isbn</code> to the body schema properties so the collection stays aligned with the API.</li>
+      </ul>
+      <pre>{
+  "title": "Dune",
+  "author": "Frank Herbert",
+  "year": 1965,
+  "isbn": "9780441013593"
+}</pre>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand why I’m updating the collection artifact, not just the app code?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 6 — Update the example response</h2>
+      <p><span class="file">postman/collections/Books/api/v1/books/.resources/Create a book.resources/examples/Book created successfully.example.yaml</span> <span class="lines">(request example, response example, response schema)</span></p>
+      <ul>
+        <li>Add ISBN to the example request body.</li>
+        <li>Add ISBN to the example response body.</li>
+        <li>Add ISBN to the example response schema.</li>
+      </ul>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand the difference between the request definition and the saved example?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 7 — Update the OpenAPI spec</h2>
+      <p><span class="file">postman/specs/book-api.yaml</span> <span class="lines">(components.schemas.Book and BookInput)</span></p>
+      <ul>
+        <li>Add optional <code>isbn</code> to the <code>Book</code> schema.</li>
+        <li>Add optional <code>isbn</code> to the <code>BookInput</code> schema.</li>
+        <li>Use realistic examples.</li>
+      </ul>
+      <pre>isbn:
+  type: string
+  nullable: true
+  example: "9780743273565"</pre>
+      <p class="ask"><strong>Pause and ask:</strong> “Do you understand why the spec needs to stay in sync with the collection and implementation?”</p>
+    </div>
+
+    <div class="card step">
+      <h2>Step 8 — Demo the git integration flow</h2>
+      <ul>
+        <li>Open the changed files in Postman’s git-connected workspace.</li>
+        <li>Review diffs file-by-file.</li>
+        <li>Create a commit message like <code>add isbn field to create book flow</code>.</li>
+        <li>Push the branch and mention that GitHub Actions should run on push for any branch because of the earlier workflow trigger change.</li>
+      </ul>
+    </div>
+
+    <div class="card note">
+      <h2>Files changed in this run</h2>
+      <div class="grid">
+        <div><code>src/models/Book.js</code></div>
+        <div><code>src/database/db.js</code></div>
+        <div><code>src/routes/books.js</code></div>
+        <div><code>tests/integration/books.test.js</code></div>
+        <div><code>postman/collections/Books/api/v1/books/Create a book.request.yaml</code></div>
+        <div><code>postman/collections/Books/api/v1/books/.resources/Create a book.resources/examples/Book created successfully.example.yaml</code></div>
+        <div><code>postman/specs/book-api.yaml</code></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

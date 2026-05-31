@@ -75,8 +75,9 @@ const server = http.createServer(async (req, res) => {
       id: String(nextId++),
       title: body.title,
       author: body.author,
-      year: body.year || null,
-      genre: body.genre || null
+      year: body.year ?? null,
+      genre: body.genre ?? null,
+      isbn: body.isbn ?? null
     };
     books.push(book);
     return sendJSON(res, 201, { book });
@@ -113,7 +114,8 @@ const server = http.createServer(async (req, res) => {
       title: body.title !== undefined ? body.title : books[index].title,
       author: body.author !== undefined ? body.author : books[index].author,
       year: body.year !== undefined ? body.year : books[index].year,
-      genre: body.genre !== undefined ? body.genre : books[index].genre
+      genre: body.genre !== undefined ? body.genre : books[index].genre,
+      isbn: body.isbn !== undefined ? body.isbn : books[index].isbn
     };
     return sendJSON(res, 200, { book: books[index] });
   }
