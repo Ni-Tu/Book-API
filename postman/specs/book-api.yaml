@@ -202,6 +202,10 @@ components:
           type: integer
           nullable: true
           example: 1925
+        # isbn:
+        #   type: string
+        #   nullable: true
+        #   example: "9780743273565"
 
     BookInput:
       type: object
@@ -218,6 +222,9 @@ components:
         year:
           type: integer
           example: 1965
+        # isbn:
+        #   type: string
+        #   example: "9780441013593"
 
     BookResponse:
       type: object
