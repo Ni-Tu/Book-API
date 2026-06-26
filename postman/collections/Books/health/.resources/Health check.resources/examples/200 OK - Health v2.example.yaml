@@ -1,0 +1,26 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/health"
+  method: GET
+  headers:
+    Accept: application/json
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "status": "ok",
+        "service": "books-api",
+        "version": "1.0.0",
+        "timestamp": "{{ $isoTimestamp }}",
+        "requestId": "{{ $randomUUID }}",
+        "uptimeMessage": "{{ $randomLoremSentence }}"
+      }
+order: 5000

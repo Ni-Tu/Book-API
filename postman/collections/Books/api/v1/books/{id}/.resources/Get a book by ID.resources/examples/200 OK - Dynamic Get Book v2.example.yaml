@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: GET
+  headers:
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "1"
+      description: Book ID
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "book": {
+          "id": "{{id}}",
+          "isbn": "{{$randomUUID}}",
+          "title": "{{$randomProductName}}",
+          "author": "{{$randomFullName}}",
+          "genre": "{{$randomCommerceDepartment}}",
+          "publishedYear": {{$randomInt}},
+          "status": "available",
+          "summary": "{{$randomLoremParagraph}}",
+          "pageCount": {{$randomInt}},
+          "publisher": "{{$randomCompanyName}}",
+          "language": "English",
+          "createdAt": "{{$isoTimestamp}}",
+          "updatedAt": "{{$isoTimestamp}}"
+        }
+      }
+order: 10000

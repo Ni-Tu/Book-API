@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: GET
+  headers:
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "101"
+      description: Book ID
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "book": {
+          "id": "101",
+          "isbn": "{{$randomUUID}}",
+          "title": "The Silent Orchard",
+          "author": "Ava Bennett",
+          "genre": "Literary Fiction",
+          "publishedYear": 2019,
+          "status": "available",
+          "summary": "A reflective novel about inheritance, memory, and a family orchard on the edge of a fading town.",
+          "pageCount": 328,
+          "publisher": "Northline Press",
+          "language": "English",
+          "createdAt": "{{$isoTimestamp}}",
+          "updatedAt": "{{$isoTimestamp}}"
+        }
+      }
+order: 7000

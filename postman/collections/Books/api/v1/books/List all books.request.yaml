@@ -7,4 +7,4 @@ body:
   type: text
   content: ""
 examples: ./.resources/List all books.resources/examples
-order: 1000
+order: 2000

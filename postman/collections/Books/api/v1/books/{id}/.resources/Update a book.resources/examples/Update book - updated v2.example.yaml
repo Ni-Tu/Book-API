@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: PUT
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "1"
+      description: Book ID
+  body:
+    type: json
+    content: |-
+      {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "year": 1965
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "message": "Book updated successfully",
+        "book": {
+          "id": "{{id}}",
+          "isbn": "{{$randomUUID}}",
+          "title": "{{$randomProductName}}",
+          "author": "{{$randomFullName}}",
+          "genre": "{{$randomCommerceDepartment}}",
+          "publishedYear": {{$randomInt}},
+          "status": "available",
+          "summary": "{{$randomLoremParagraph}}",
+          "updatedAt": "{{$isoTimestamp}}"
+        }
+      }
+order: 7000

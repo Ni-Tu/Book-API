@@ -1,5 +1,36 @@
+owner: "54167777"
+team: "13347347"
+lastUpdatedBy: "54167777"
+lastRevision: 1782473279000
 name: test
+color: null
 values:
   - key: baseUrl
-    value: 'http://localhost:4500'
+    value: https://example.com
     enabled: true
+  - key: mockBooksList
+    value: '[{"id":1,"title":"The Great Gatsby","author":"F. Scott Fitzgerald","genre":"Classic","publishedYear":1925,"status":"available"},{"id":2,"title":"To Kill a Mockingbird","author":"Harper Lee","genre":"Fiction","publishedYear":1960,"status":"available"}]'
+    enabled: true
+  - key: mockBookId
+    value: "1"
+    enabled: true
+  - key: mockBookTitle
+    value: The Great Gatsby
+    enabled: true
+  - key: mockBookAuthor
+    value: F. Scott Fitzgerald
+    enabled: true
+  - key: mockBookGenre
+    value: Classic
+    enabled: true
+  - key: mockBookPublishedYear
+    value: "1925"
+    enabled: true
+  - key: mockBookStatus
+    value: available
+    enabled: true
+  - key: mockHealthStatus
+    value: ok
+    enabled: true
+createdAt: 2026-06-26T11:21:22.000Z
+updatedAt: 2026-06-26T11:27:59.000Z

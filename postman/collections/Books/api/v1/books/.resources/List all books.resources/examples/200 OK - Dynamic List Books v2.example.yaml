@@ -1,0 +1,63 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books"
+  method: GET
+  headers:
+    Accept: application/json
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "books": [
+          {
+            "id": "{{ $randomInt }}",
+            "isbn": "{{ $randomUUID }}",
+            "title": "{{ $randomProductName }}",
+            "author": "{{ $randomFullName }}",
+            "genre": "{{ $randomCommerceDepartment }}",
+            "publishedYear": {{ $randomInt }},
+            "status": "available",
+            "summary": "{{ $randomLoremParagraph }}",
+            "createdAt": "{{ $isoTimestamp }}",
+            "updatedAt": "{{ $isoTimestamp }}"
+          },
+          {
+            "id": "{{$randomInt}}",
+            "isbn": "{{$randomUUID}}",
+            "title": "{{$randomProductName}}",
+            "author": "{{$randomFullName}}",
+            "genre": "{{$randomCommerceDepartment}}",
+            "publishedYear": {{$randomInt}},
+            "status": "checked_out",
+            "summary": "{{$randomLoremParagraph}}",
+            "createdAt": "{{$isoTimestamp}}",
+            "updatedAt": "{{$isoTimestamp}}"
+          },
+          {
+            "id": "{{$randomInt}}",
+            "isbn": "{{$randomUUID}}",
+            "title": "{{$randomProductName}}",
+            "author": "{{$randomFullName}}",
+            "genre": "{{$randomCommerceDepartment}}",
+            "publishedYear": {{$randomInt}},
+            "status": "reserved",
+            "summary": "{{$randomLoremParagraph}}",
+            "createdAt": "{{$isoTimestamp}}",
+            "updatedAt": "{{$isoTimestamp}}"
+          }
+        ],
+        "pagination": {
+          "total": 3,
+          "limit": 20,
+          "offset": 0
+        }
+      }
+order: 3000

@@ -35,4 +35,4 @@ body:
       ]
     }
 examples: ./.resources/Create a book.resources/examples
-order: 2000
+order: 3000

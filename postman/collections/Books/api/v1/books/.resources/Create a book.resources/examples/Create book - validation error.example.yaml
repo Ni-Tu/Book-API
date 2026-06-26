@@ -1,0 +1,48 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "title": "",
+        "author": "{{mockBookAuthor}}",
+        "genre": "{{mockBookGenre}}",
+        "publishedYear": "invalid",
+        "status": "{{mockBookStatus}}"
+      }
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": false,
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "The request body contains invalid fields",
+          "fields": [
+            {
+              "field": "title",
+              "message": "Title is required"
+            },
+            {
+              "field": "publishedYear",
+              "message": "Published year must be a valid four-digit number"
+            }
+          ]
+        },
+        "meta": {
+          "requestId": "req_book_create_400",
+          "timestamp": "2024-06-15T09:10:00.000Z"
+        }
+      }
+order: 5000

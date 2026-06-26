@@ -1,0 +1,46 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: PUT
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "{{mockBookId}}"
+      description: Book identifier
+  body:
+    type: json
+    content: |-
+      {
+        "title": "{{mockBookTitle}}",
+        "author": "{{mockBookAuthor}}",
+        "genre": "{{mockBookGenre}}",
+        "publishedYear": {{mockBookPublishedYear}},
+        "status": "{{mockBookStatus}}"
+      }
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": false,
+        "error": {
+          "code": "BOOK_NOT_FOUND",
+          "message": "Unable to update book '{{mockBookId}}' because it does not exist",
+          "details": {
+            "resource": "book",
+            "id": "{{mockBookId}}"
+          }
+        },
+        "meta": {
+          "requestId": "req_book_update_404",
+          "timestamp": "2024-06-15T09:12:00.000Z"
+        }
+      }
+order: 6000

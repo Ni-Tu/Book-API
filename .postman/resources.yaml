@@ -1,17 +1,21 @@
 workspace:
   id: 88b75a98-cecc-4180-8502-b2694a1ed015
-
 localResources:
   specs:
     - ../postman/specs/book-api.yaml
   docs:
     - ../tests/README.md
     - ../README.md
-
-# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
-
+  collections:
+    - ../postman/collections/Book API
+    - ../postman/collections/Books
+  environments:
+    - ../postman/environments/test.environment.yaml
 cloudResources:
   specs:
-    ../postman/specs/book-api.yaml: beb6f751-d064-4289-825a-dfbd473c55c3
+    ../postman/specs/book-api.yaml: 7b5b4be5-2a86-4157-9c66-6237669872c9
   collections:
-    ../postman/collections/Book API: 52509354-13bc9800-edb5-484b-a957-721a2f64fc4a
+    ../postman/collections/Book API: 54167777-1213fe14-164f-4d63-80ef-e2520e657a86
+    ../postman/collections/Books: 54167777-8e4aee03-db98-4327-b586-41b24fd75f5b
+  environments:
+    ../postman/environments/test.environment.yaml: 54167777-12cb3de2-8bc4-4a5c-963e-9a54d45ce81a

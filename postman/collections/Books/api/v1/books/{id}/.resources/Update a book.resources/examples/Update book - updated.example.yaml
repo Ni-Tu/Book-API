@@ -1,0 +1,56 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: PUT
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "{{mockBookId}}"
+      description: Book identifier
+  body:
+    type: json
+    content: |-
+      {
+        "title": "{{mockBookTitle}}",
+        "author": "{{mockBookAuthor}}",
+        "genre": "{{mockBookGenre}}",
+        "publishedYear": {{mockBookPublishedYear}},
+        "status": "{{mockBookStatus}}"
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Book updated successfully",
+        "data": {
+          "id": "{{mockBookId}}",
+          "title": "{{mockBookTitle}}",
+          "author": "{{mockBookAuthor}}",
+          "genre": "{{mockBookGenre}}",
+          "publishedYear": {{mockBookPublishedYear}},
+          "status": "{{mockBookStatus}}",
+          "isbn": "978-1-4028-9462-6",
+          "language": "en",
+          "pageCount": 396,
+          "publisher": {
+            "name": "Maple House Publishing",
+            "country": "US"
+          },
+          "revision": 4,
+          "updatedFields": ["title", "genre", "status"],
+          "updatedAt": "2024-06-15T11:20:00.000Z"
+        },
+        "meta": {
+          "requestId": "req_book_update_001"
+        }
+      }
+order: 5000

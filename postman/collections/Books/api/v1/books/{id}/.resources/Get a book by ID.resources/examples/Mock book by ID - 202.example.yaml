@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: GET
+  headers:
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "202"
+      description: Book ID
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "book": {
+          "id": "202",
+          "isbn": "{{$randomUUID}}",
+          "title": "Systems at Dawn",
+          "author": "Marcus Hale",
+          "genre": "Technology",
+          "publishedYear": 2021,
+          "status": "checked_out",
+          "summary": "An accessible deep dive into distributed systems, written through the story of a startup scaling too fast.",
+          "pageCount": 412,
+          "publisher": "Vector House",
+          "language": "English",
+          "createdAt": "{{$isoTimestamp}}",
+          "updatedAt": "{{$isoTimestamp}}"
+        }
+      }
+order: 8000

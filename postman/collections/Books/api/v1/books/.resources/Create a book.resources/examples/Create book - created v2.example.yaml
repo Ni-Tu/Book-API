@@ -1,0 +1,40 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "year": 1965
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "message": "Book created successfully",
+        "book": {
+          "id": "{{$randomInt}}",
+          "isbn": "{{$randomUUID}}",
+          "title": "{{$randomProductName}}",
+          "author": "{{$randomFullName}}",
+          "genre": "{{$randomCommerceDepartment}}",
+          "publishedYear": {{$randomInt}},
+          "status": "available",
+          "summary": "{{$randomLoremParagraph}}",
+          "createdAt": "{{$isoTimestamp}}",
+          "updatedAt": "{{$isoTimestamp}}"
+        }
+      }
+order: 6000

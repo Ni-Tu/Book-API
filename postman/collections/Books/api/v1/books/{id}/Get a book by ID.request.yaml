@@ -5,7 +5,7 @@ headers:
   Accept: application/json
 pathVariables:
   - key: id
-    value: "1"
+    value: "101"
     description: Book ID
     $type: |-
       {

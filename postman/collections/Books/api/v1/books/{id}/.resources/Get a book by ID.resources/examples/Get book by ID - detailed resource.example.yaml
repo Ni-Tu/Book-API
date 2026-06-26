@@ -1,0 +1,95 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: GET
+  headers:
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "{{mockBookId}}"
+      description: Book identifier
+  body:
+    type: json
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": {
+          "id": "{{mockBookId}}",
+          "title": "{{mockBookTitle}}",
+          "author": "{{mockBookAuthor}}",
+          "genre": "{{mockBookGenre}}",
+          "publishedYear": {{mockBookPublishedYear}},
+          "status": "{{mockBookStatus}}",
+          "isbn": "978-1-4028-9462-6",
+          "description": "A richly layered story that explores ambition, memory, and the cost of reinvention.",
+          "language": "en",
+          "pageCount": 384,
+          "edition": 2,
+          "series": {
+            "name": "Modern Classics Revisited",
+            "number": 3
+          },
+          "rating": {
+            "average": 4.6,
+            "count": 1284,
+            "distribution": {
+              "5": 820,
+              "4": 310,
+              "3": 102,
+              "2": 34,
+              "1": 18
+            }
+          },
+          "publisher": {
+            "name": "Maple House Publishing",
+            "country": "US",
+            "imprint": "Maple Literary"
+          },
+          "availability": {
+            "inStock": true,
+            "warehouse": "east-coast-1",
+            "formats": [
+              {
+                "type": "hardcover",
+                "price": 24.99,
+                "currency": "USD"
+              },
+              {
+                "type": "ebook",
+                "price": 9.99,
+                "currency": "USD"
+              }
+            ]
+          },
+          "contributors": [
+            {
+              "name": "Mira Lane",
+              "role": "Editor"
+            },
+            {
+              "name": "Jon Hart",
+              "role": "Illustrator"
+            }
+          ],
+          "categories": ["fiction", "literary", "featured"],
+          "links": {
+            "self": "/api/v1/books/{{mockBookId}}",
+            "reviews": "/api/v1/books/{{mockBookId}}/reviews"
+          },
+          "createdAt": "2024-01-15T10:30:00.000Z",
+          "updatedAt": "2024-06-12T08:45:00.000Z"
+        },
+        "meta": {
+          "requestId": "req_book_get_001",
+          "servedBy": "books-api-01"
+        }
+      }
+order: 5000

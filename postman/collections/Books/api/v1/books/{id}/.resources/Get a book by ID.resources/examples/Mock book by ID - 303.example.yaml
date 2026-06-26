@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: GET
+  headers:
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "303"
+      description: Book ID
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "book": {
+          "id": "303",
+          "isbn": "{{$randomUUID}}",
+          "title": "Cartographers of Rain",
+          "author": "Leila Moreno",
+          "genre": "Magical Realism",
+          "publishedYear": 2017,
+          "status": "reserved",
+          "summary": "In a city that records storms like family history, one archivist discovers maps that predict personal loss.",
+          "pageCount": 276,
+          "publisher": "Harbor Ink",
+          "language": "English",
+          "createdAt": "{{$isoTimestamp}}",
+          "updatedAt": "{{$isoTimestamp}}"
+        }
+      }
+order: 9000

@@ -1,0 +1,52 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "title": "{{mockBookTitle}}",
+        "author": "{{mockBookAuthor}}",
+        "genre": "{{mockBookGenre}}",
+        "publishedYear": {{mockBookPublishedYear}},
+        "status": "{{mockBookStatus}}"
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Book created successfully",
+        "data": {
+          "id": "{{mockBookId}}",
+          "title": "{{mockBookTitle}}",
+          "author": "{{mockBookAuthor}}",
+          "genre": "{{mockBookGenre}}",
+          "publishedYear": {{mockBookPublishedYear}},
+          "status": "{{mockBookStatus}}",
+          "isbn": "978-1-4028-9462-6",
+          "language": "en",
+          "pageCount": 384,
+          "publisher": {
+            "name": "Maple House Publishing",
+            "country": "US"
+          },
+          "tags": ["new-release", "featured"],
+          "createdAt": "2024-06-15T09:00:00.000Z",
+          "updatedAt": "2024-06-15T09:00:00.000Z"
+        },
+        "meta": {
+          "requestId": "req_book_create_001"
+        }
+      }
+order: 4000

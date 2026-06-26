@@ -1,0 +1,37 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/api/v1/books/:id"
+  method: GET
+  headers:
+    Accept: application/json
+  pathVariables:
+    - key: id
+      value: "{{mockBookId}}"
+      description: Book identifier
+  body:
+    type: json
+    content: ""
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": false,
+        "error": {
+          "code": "BOOK_NOT_FOUND",
+          "message": "Book with id '{{mockBookId}}' was not found",
+          "details": {
+            "resource": "book",
+            "id": "{{mockBookId}}"
+          }
+        },
+        "meta": {
+          "requestId": "req_book_get_404",
+          "timestamp": "2024-06-15T09:05:00.000Z"
+        }
+      }
+order: 6000
